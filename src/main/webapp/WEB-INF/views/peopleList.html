@@ -5,6 +5,7 @@
     <title>PeopleList</title>
 </head>
 <body>
+<p>Master</p>
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}">user</a>
 </div>
