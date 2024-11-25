@@ -5,7 +5,7 @@
     <title>PeopleList</title>
 </head>
 <body>
-<p> Add jdbc</p>
+<p> It is worked by jdbc</p>
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}">user</a>
 </div>
