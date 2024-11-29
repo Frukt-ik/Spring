@@ -14,19 +14,19 @@ private static final String URL="jdbc:postgresql://localhost:5432/first_db";
 private static final String USER="postgres";
 private static final String PASSWORD="admin";
 
-private static Connection connection;
+private static final Connection  connection;
 
 static {
     try {
         Class.forName("org.postgresql.Driver");
     } catch (ClassNotFoundException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e);
     }
 
     try {
         connection = DriverManager.getConnection(URL,USER,PASSWORD);
     } catch (SQLException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e);
     }
 
 }
@@ -109,8 +109,6 @@ static {
     }
 
     public void deletePerson(int id) {
-//        Person person = getPerson(id);
-//        people.remove(person);
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement("DELETE FROM person WHERE id=?");
