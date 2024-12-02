@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class PersonDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     PersonDAO(JdbcTemplate jdbcTemplate) {
