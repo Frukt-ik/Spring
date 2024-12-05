@@ -52,7 +52,8 @@ public class PersonDAO {
         double start = System.currentTimeMillis();
 
         for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO person VALUES (?, ?, ?, ?)",person.getId(), person.getName(), person.getAge(), person.getEmail());
+            jdbcTemplate.update("INSERT INTO person VALUES (?, ?, ?, ?)",
+                    person.getId(), person.getName(), person.getAge(), person.getEmail());
         }
 
         double end = System.currentTimeMillis();
