@@ -10,6 +10,7 @@ import ua.springApp.models.Person;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -25,6 +26,11 @@ public class PersonDAO {
     public List<Person> getPeople() {
 
         return jdbcTemplate.query("SELECT * FROM person2", new BeanPropertyRowMapper<>(Person.class));
+    }
+
+
+    public Optional<Person> getPerson(String email) {
+        return jdbcTemplate.query("SELECT * FROM person2 WHERE email = ?", new BeanPropertyRowMapper<>(Person.class), email).stream().findAny();
     }
 
     public Person getPerson(int id) {
