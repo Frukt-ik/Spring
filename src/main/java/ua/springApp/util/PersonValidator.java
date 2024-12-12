@@ -6,14 +6,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ua.springApp.dao.PersonDAO;
 import ua.springApp.models.Person;
+import ua.springApp.util.conventers.StringToIntegerConverter;
+
 @Component
 public class PersonValidator implements Validator {
 
     private final PersonDAO personDAO;
+    private final StringToIntegerConverter stringToIntegerConverter;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
+    public PersonValidator(PersonDAO personDAO, StringToIntegerConverter stringToIntegerConverter) {
         this.personDAO = personDAO;
+        this.stringToIntegerConverter = stringToIntegerConverter;
     }
 
     @Override
@@ -28,6 +32,17 @@ public class PersonValidator implements Validator {
         if(personDAO.getPerson(person.getEmail()).isPresent()){
             errors.rejectValue("email", "person.email.exists","Email already exists");
         }
+
+
+
+//        try {
+//            stringToIntegerConverter.convert(String.valueOf(person.getAge()));
+//        }catch (NumberFormatException e){
+//            errors.rejectValue("age", "person.age.invalid","Invalid age");
+//        }
+
+//        String str = String.valueOf("sss");
+
 
 //        if(person.getAge() == null){
 //            errors.rejectValue("age", "person.age.null","Age cannot be null");

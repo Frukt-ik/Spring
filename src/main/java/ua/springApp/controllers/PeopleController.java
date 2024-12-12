@@ -5,10 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.springApp.dao.PersonDAO;
 import ua.springApp.models.Person;
 import ua.springApp.util.PersonValidator;
+
+import java.beans.PropertyEditorSupport;
 
 
 @Controller
@@ -65,6 +68,11 @@ public class PeopleController {
     public String updatePerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
                                @PathVariable("id") int id){
+
+        if (person.getAge() == null) {
+            bindingResult.rejectValue("age", "person.age.invalid", "Age must be a valid number");
+        }
+
         personValidator.validate(person, bindingResult);
         if(bindingResult.hasErrors()){
             return "editPerson";
@@ -79,4 +87,26 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+
+//    /////////////////////////////////////////////////////////////////////////////////////////////////////
+//    Цей метод додає кастомний редактор властивостей (PropertyEditorSupport) для полів типу Integer.
+//    Якщо користувач вводить некоректні дані (наприклад, "sss"), значення age буде встановлено як null, а не спричинить виняток.
+//    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null); // Дозволяємо null для порожніх рядків
+                } else {
+                    try {
+                        setValue(Integer.parseInt(text)); // Пробуємо конвертувати
+                    } catch (NumberFormatException e) {
+                        setValue(null); // Якщо конверсія не вдалася, залишаємо поле null
+                    }
+                }
+            }
+        });
+    }
 }

@@ -15,7 +15,7 @@ public class Person {
     @Email(message = "Email should be valid!")
     private String email;
 
-    @NotNull(message = "Age is required")
+//    @Pattern(regexp = "\\d{1,3}", message = "should be number")
     @Min(value = 0, message = "Age should be bigger then 0")
     private Integer age;
 
