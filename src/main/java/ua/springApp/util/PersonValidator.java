@@ -6,18 +6,15 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ua.springApp.dao.PersonDAO;
 import ua.springApp.models.Person;
-import ua.springApp.util.conventers.StringToIntegerConverter;
 
 @Component
 public class PersonValidator implements Validator {
 
     private final PersonDAO personDAO;
-    private final StringToIntegerConverter stringToIntegerConverter;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO, StringToIntegerConverter stringToIntegerConverter) {
+    public PersonValidator(PersonDAO personDAO) {
         this.personDAO = personDAO;
-        this.stringToIntegerConverter = stringToIntegerConverter;
     }
 
     @Override
