@@ -7,6 +7,8 @@ import org.springframework.validation.Validator;
 import ua.springApp.dao.PersonDAO;
 import ua.springApp.models.Person;
 
+import java.util.Optional;
+
 @Component
 public class PersonValidator implements Validator {
 
@@ -26,27 +28,13 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
-        if(personDAO.getPerson(person.getEmail()).isPresent()){
+        if(personDAO.getPerson(person.getEmail(),person.getId()).isPresent()){
             errors.rejectValue("email", "person.email.exists","Email already exists");
         }
 
+        if(person.getAge()==null){
+            errors.rejectValue("age", "person.age.invalid", "Age must be a valid number");
+        }
 
-
-//        try {
-//            stringToIntegerConverter.convert(String.valueOf(person.getAge()));
-//        }catch (NumberFormatException e){
-//            errors.rejectValue("age", "person.age.invalid","Invalid age");
-//        }
-
-//        String str = String.valueOf("sss");
-
-
-//        if(person.getAge() == null){
-//            errors.rejectValue("age", "person.age.null","Age cannot be null");
-//        }
-//
-//        if(!(person.getAge() instanceof Integer)){
-//            errors.rejectValue("age", "person.age.exists","Age must be number");
-//        }
     }
 }

@@ -21,6 +21,7 @@ public class PeopleController {
     private final PersonDAO personDAO;
     private final PersonValidator personValidator;
 
+
     @Autowired
     public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
@@ -68,10 +69,6 @@ public class PeopleController {
     public String updatePerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
                                @PathVariable("id") int id){
-
-        if (person.getAge() == null) {
-            bindingResult.rejectValue("age", "person.age.invalid", "Age must be a valid number");
-        }
 
         personValidator.validate(person, bindingResult);
         if(bindingResult.hasErrors()){
