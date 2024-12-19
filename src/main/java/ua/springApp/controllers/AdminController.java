@@ -10,7 +10,7 @@ import ua.springApp.models.Person;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private PersonDAO personDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
     public AdminController(PersonDAO personDAO) {
